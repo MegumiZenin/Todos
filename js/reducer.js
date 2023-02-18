@@ -38,10 +38,14 @@ const actions = {
     startEdit(state, index) {
         state.editIndex = index;
     },
-    endEdit(state, editIndex, value) {
-        state.todos[editIndex].content = value;
+    endEdit(state, value) {
+        if (value) {
+            state.todos[state.editIndex].content = value;
+            Storage.set(state.todos)
+        } else {
+            this.delete(state, state.editIndex);
+        }
         state.editIndex = null;
-        Storage.set(todos)
     },
     cancelEdit(state) {
         state.editIndex = null;
